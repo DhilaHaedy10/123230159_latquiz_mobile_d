@@ -1,23 +1,43 @@
 import 'package:flutter/material.dart';
 import 'models/data.dart';
 
-class DetailPage extends StatelessWidget {
+class DetailPage extends StatefulWidget {
   final Game game;
 
   const DetailPage({super.key, required this.game});
 
   @override
+  State<DetailPage> createState() => _DetailPageState();
+}
+
+class _DetailPageState extends State<DetailPage> {
+  bool isLiked = false;
+
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(game.judul),
+        title: Text(widget.game.judul),
+        actions: [
+          IconButton(
+            icon: Icon(isLiked ? Icons.favorite : Icons.favorite_border,
+            color: isLiked ? Colors.red : Colors.grey),
+            onPressed: () {
+              setState(() {
+                isLiked = !isLiked;
+              });
+            },
+          ),
+        ],
       ),
       body: SingleChildScrollView(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Image.network(
-              game.gambar, width: double.infinity, height: 250, fit: BoxFit.cover,
+              widget.game.gambar,
+              width: double.infinity,
+              height: 250,
+              fit: BoxFit.cover,
             ),
 
             Padding(
@@ -25,8 +45,7 @@ class DetailPage extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-
-                  Card(     
+                  Card(
                     child: Column(
                       children: [
                         Padding(
@@ -36,19 +55,20 @@ class DetailPage extends StatelessWidget {
                             crossAxisAlignment: CrossAxisAlignment.center,
                             children: [
                               Text(
-                                game.judul, textAlign: TextAlign.center,
+                                widget.game.judul,
+                                textAlign: TextAlign.center,
                                 style: const TextStyle(
-                                  fontSize: 24, fontWeight: FontWeight.bold,
+                                  fontSize: 24,
+                                  fontWeight: FontWeight.bold,
                                 ),
                               ),
 
                               SizedBox(height: 5),
 
                               Text(
-                                game.tanggal, textAlign: TextAlign.center,
-                                style: TextStyle(
-                                  color: Colors.blueGrey,
-                                ),
+                                widget.game.tanggal,
+                                textAlign: TextAlign.center,
+                                style: TextStyle(color: Colors.blueGrey),
                               ),
 
                               Divider(
@@ -58,18 +78,18 @@ class DetailPage extends StatelessWidget {
                               ),
 
                               Text(
-                                game.deskripsi, textAlign: TextAlign.justify,
-                              )
+                                widget.game.deskripsi,
+                                textAlign: TextAlign.justify,
+                              ),
                             ],
-                          )
-
-                        )
+                          ),
+                        ),
                       ],
-                    )
-                  )
+                    ),
+                  ),
                 ],
               ),
-            )
+            ),
           ],
         ),
       ),
